@@ -27,7 +27,7 @@ The system must automatically:
 - Publish light state into ROS 2
 
 
-### Key Requirements
+## Other Comments
 
 The submission must include a proper README.md or quick start guide.
 
@@ -52,3 +52,10 @@ We want to see how you:
 5. Work with MQTT
 6. Think about system architecture
 7. Explain your work clearly in a README
+
+
+### How to submit 
+1. Clone the repo
+2. Complete the assignment
+3. Push to your own GitHub repo
+4. Share the repo link
