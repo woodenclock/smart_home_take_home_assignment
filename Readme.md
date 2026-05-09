@@ -12,27 +12,22 @@ The system must automatically:
 - Turn lights **ON** at 8:00 PM (students return to rooms)
 - Turn lights **OFF** at 8:00 AM (save daytime energy)
 
-### Solution Stack 🛜
+### Solution ⭐
+The system is made of 3 main components:
 - Philips Hue smart lights (Zigbee devices)
 - MQTT broker for communication
 - ROS 2 orchestration layer
 
-### Solution Architecture ⭐
-
-Overall, the ROS 2 Node will publish the light commands such as send_light_command() through the MQTT Broker, which then relays the message to the light bulb. However, the ROS 2 Node also has to know the current state of the light bulb to make appropriate decisions, and for which the state information is sent in reverse order, which the ROS 2 Node receives through on_message().
+The ROS 2 Node will publish the light commands such as send_light_command() through the MQTT Broker, which then relays the message to the light bulb, as shown in the diagram below. However, the ROS 2 Node also has to know the current state of the light bulb to make appropriate decisions, and for which the state information is sent in reverse order, which the ROS 2 Node receives through on_message().
 
 ROS 2 Node
-
     |
     | MQTT publish
     v
-
 MQTT Broker
-
     |
     | forwards message
     v
-
 Philips Hue smart lights
 
 
@@ -52,7 +47,7 @@ Philips Hue smart lights
 - Receive current light state from MQTT
 - Publish light state into ROS 2
 
-## Other Comments
+### Other Comments
 
 The submission must include a proper README.md or quick start guide.
 
