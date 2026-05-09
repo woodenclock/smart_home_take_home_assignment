@@ -21,28 +21,28 @@ The system is made of 3 main components:
 The ROS 2 Node will publish the light commands such as send_light_command() through the MQTT Broker, which then relays the message to the light bulb, as shown in the diagram below. However, the ROS 2 Node also has to know the current state of the light bulb to make appropriate decisions, and for which the state information is sent in reverse order, which the ROS 2 Node receives through on_message().
 
 COMMAND PATH:
-ROS2 Controller Node
-        |
-        | MQTT publish
-        v
-MQTT Broker
-        |
-        v
-Philips Hue Smart Light
+>ROS2 Controller Node
+>        |
+>        | MQTT publish
+>        v
+>MQTT Broker
+>        |
+>        v
+>Philips Hue Smart Light
 
 STATE PATH:
-Philips Hue Smart Light
-        |
-        | MQTT state update
-        v
-MQTT Broker
-        |
-        v
-ROS2 Controller Node
-        |
-        | ROS2 publish
-        v
-ROS2 Subscribers
+>Philips Hue Smart Light
+>        |
+>        | MQTT state update
+>        v
+>MQTT Broker
+>        |
+>        v
+>ROS2 Controller Node
+>        |
+>        | ROS2 publish
+>        v
+>ROS2 Subscribers
 
 
 
