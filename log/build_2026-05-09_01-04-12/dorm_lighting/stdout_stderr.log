@@ -1,0 +1,24 @@
+running egg_info
+writing ../../build/dorm_lighting/dorm_lighting.egg-info/PKG-INFO
+writing dependency_links to ../../build/dorm_lighting/dorm_lighting.egg-info/dependency_links.txt
+writing entry points to ../../build/dorm_lighting/dorm_lighting.egg-info/entry_points.txt
+writing requirements to ../../build/dorm_lighting/dorm_lighting.egg-info/requires.txt
+writing top-level names to ../../build/dorm_lighting/dorm_lighting.egg-info/top_level.txt
+reading manifest file '../../build/dorm_lighting/dorm_lighting.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file '../../build/dorm_lighting/dorm_lighting.egg-info/SOURCES.txt'
+running build
+running build_py
+copying dorm_lighting/light_controller.py -> /home/elvis/projects/smart_home_take_home_assignment/build/dorm_lighting/build/lib/dorm_lighting
+running install
+running install_lib
+copying /home/elvis/projects/smart_home_take_home_assignment/build/dorm_lighting/build/lib/dorm_lighting/light_controller.py -> /home/elvis/projects/smart_home_take_home_assignment/install/dorm_lighting/lib/python3.10/site-packages/dorm_lighting
+byte-compiling /home/elvis/projects/smart_home_take_home_assignment/install/dorm_lighting/lib/python3.10/site-packages/dorm_lighting/light_controller.py to light_controller.cpython-310.pyc
+running install_data
+copying package.xml -> /home/elvis/projects/smart_home_take_home_assignment/install/dorm_lighting/share/dorm_lighting
+running install_egg_info
+removing '/home/elvis/projects/smart_home_take_home_assignment/install/dorm_lighting/lib/python3.10/site-packages/dorm_lighting-0.0.0-py3.10.egg-info' (and everything under it)
+Copying ../../build/dorm_lighting/dorm_lighting.egg-info to /home/elvis/projects/smart_home_take_home_assignment/install/dorm_lighting/lib/python3.10/site-packages/dorm_lighting-0.0.0-py3.10.egg-info
+running install_scripts
+Installing light_controller script to /home/elvis/projects/smart_home_take_home_assignment/install/dorm_lighting/lib/dorm_lighting
+writing list of installed files to '/home/elvis/projects/smart_home_take_home_assignment/build/dorm_lighting/install.log'

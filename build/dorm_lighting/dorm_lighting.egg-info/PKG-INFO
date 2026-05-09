@@ -1,0 +1,14 @@
+Metadata-Version: 2.1
+Name: dorm-lighting
+Version: 0.0.0
+Summary: Scheduled smart lighting controller bridging ROS 2 and MQTT for NTU dorm rooms.
+Home-page: UNKNOWN
+Maintainer: Lee Sungmin
+Maintainer-email: luckyisland3710@gmail.com
+License: MIT
+Platform: UNKNOWN
+Provides-Extra: test
+License-File: LICENSE
+
+UNKNOWN
+

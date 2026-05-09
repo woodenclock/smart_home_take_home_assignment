@@ -1,4 +1,4 @@
-## Problem Statement: NTU Dorm Smart Lighting Automation
+## NTU Dorm Smart Lighting Automation
 
 At Nanyang Technological University (NTU), student dormitories are implementing energy-efficient automated room lighting.
 
@@ -7,25 +7,50 @@ At Nanyang Technological University (NTU), student dormitories are implementing 
 - Inconsistent usage habits across students
 - No centralized management or automation
 
-### Solution Stack
-- Philips Hue smart lights (Zigbee devices)
-- MQTT broker for communication
-- ROS 2 orchestration layer
-
-## Your Task
-
-Build a ROS 2 Python package that acts as a scheduled lighting controller for a dorm room.
-
 ### Requirements
 The system must automatically:
 - Turn lights **ON** at 8:00 PM (students return to rooms)
 - Turn lights **OFF** at 8:00 AM (save daytime energy)
 
+### Solution Stack
+- Philips Hue smart lights (Zigbee devices)
+- MQTT broker for communication
+- ROS 2 orchestration layer
+
+### Solution Architecture
+
+Overall, the ROS 2 Node will publish the light commands such as send_light_command() through the MQTT Broker, which then relays the message to the light bulb. However, the ROS 2 Node also has to know the current state of the light bulb to make appropriate decisions, and for which the state information is sent in reverse order, which the ROS 2 Node receives through on_message().
+
+ROS 2 Node
+
+    |
+    | MQTT publish
+    v
+
+MQTT Broker
+
+    |
+    | forwards message
+    v
+
+Philips Hue smart lights
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### Node Responsibilities
 - Send commands to the light via MQTT
 - Receive current light state from MQTT
 - Publish light state into ROS 2
-
 
 ## Other Comments
 
@@ -52,7 +77,6 @@ We want to see how you:
 5. Work with MQTT
 6. Think about system architecture
 7. Explain your work clearly in a README
-
 
 ### How to submit 
 1. Clone the repo

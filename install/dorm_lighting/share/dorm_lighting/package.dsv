@@ -1,0 +1,6 @@
+source;share/dorm_lighting/hook/pythonpath.ps1
+source;share/dorm_lighting/hook/pythonpath.dsv
+source;share/dorm_lighting/hook/pythonpath.sh
+source;share/dorm_lighting/hook/ament_prefix_path.ps1
+source;share/dorm_lighting/hook/ament_prefix_path.dsv
+source;share/dorm_lighting/hook/ament_prefix_path.sh
