@@ -72,13 +72,13 @@ ROS2 Controller Node
 ROS2 Subscribers
 ```
 
-### Prerequisites
+### 🔷 Prerequisites
 * Ubuntu 22.04
 * ROS 2 Humble
 * Python 3.10+
 * Mosquitto MQTT Broker
 
-### Installing Dependencies
+### 🔷 Installing Dependencies
 In ubuntu bash, run the following command.
 ```
 sudo apt update && sudo apt upgrade -y
@@ -115,7 +115,7 @@ sudo systemctl enable mosquitto
 
 sudo systemctl start mosquitto
 ```
-### Building ROS 2 Package
+### 🔷 Building ROS 2 Package
 Navigate to workspace, in my case, it is located in $/projects/smart_home_take_home_assignment.
 ```
 cd ~/projects/smart_home_take_home_assignment
@@ -126,7 +126,7 @@ colcon build
 
 source install/setup.bash
 ```
-### Running MQTT Broker
+### 🔷 Running MQTT Broker
 Verify Mosquitto is running.
 ```
 sudo systemctl status mosquitto
@@ -135,7 +135,7 @@ Expected Output:
 ```
 active (running)
 ```
-### Running ROS 2 Node
+### 🔷 Running ROS 2 Node
 Run the following commands:
 ```
 cd ~/projects/smart_home_take_home_assignment
@@ -148,7 +148,7 @@ Expected Output:
 ```
 [INFO] Light controller started.
 ```
-### MQTT Topics
+### 🔷 MQTT Topics
 Before moving on, we'll take a look at the different topics for publishing and subscribing.
 <br/>
 <br/>
@@ -160,7 +160,7 @@ dorm/light/command
 ```
 dorm/light/state
 ```
-### Testing MQTT broker.
+### 🔷 Testing MQTT broker.
 We will use different terminals to simulate the different components of the architecture.
 <br/>
 <br/>
@@ -176,7 +176,7 @@ Expected Output:
 ```
 hello
 ```
-### Testing ON / OFF commands.
+### 🔷 Testing ON / OFF commands.
 **Terminal 1: Run ROS 2 Node**
 ```
 ros2 run dorm_lighting light_controller
@@ -199,7 +199,7 @@ data: ON
 
 data: OFF
 ```
-### Possible Future Improvements
+### 🔷 Possible Future Improvements
 * Philips Hue API integration
 * Docker containerization
 * Unit and integration tests
