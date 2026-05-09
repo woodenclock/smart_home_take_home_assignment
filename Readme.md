@@ -71,7 +71,25 @@ ROS2 Controller Node
         v
 ROS2 Subscribers
 ```
-
+### 🔷 Project Structure
+```
+smart_home_take_home_assignment/
+├── src/
+│  └── dorm_lighting/
+│    ├── dorm_lighting/
+│    │   ├── init.py
+│    │   ├── light_controller.py
+│    │   └── system_clock.py
+│    ├── test/
+│    │   └── test_time.py
+│    ├── LICENSE
+│    ├── package.xml
+│    ├── setup.py
+│    └── setup.cfg
+├── build/
+├── install/
+└── log/
+```
 ### 🔷 Prerequisites
 * Ubuntu 22.04
 * ROS 2 Humble
@@ -160,6 +178,23 @@ Expected Output:
 ```
 [INFO] Light controller started.
 ```
+### 🔷 Testing MQTT broker. (Optional)
+We will use different terminals to simulate the different components of the architecture.
+<br/>
+<br/>
+**Terminal 1: Subscriber**
+```
+mosquitto_sub -h localhost -t test/topic
+```
+**Terminal 2: Publisher**
+```
+mosquitto_pub -h localhost -t test/topic -m "hello"
+```
+Expected Output:
+```
+hello
+```
+This confirms that the local MQTT broker can receive and forward messages.
 ### 🔷 Testing ON / OFF commands.
 **Terminal 1: Run ROS 2 Node**
 ```
@@ -183,22 +218,43 @@ data: ON
 
 data: OFF
 ```
-### 🔷 Testing MQTT broker.
-We will use different terminals to simulate the different components of the architecture.
-<br/>
-<br/>
+This proves that:
+* The MQTT broker is working.
+* The ROS 2 node receives MQTT state messages.
+* The ROS 2 node publishes the received light state to `/light_state`.
+
+### 🔷 Testing Scheduled ON / OFF Automation with Fake Clock
+
+The lighting controller is required to automatically:
+
+- Turn lights **ON at 8:00 PM**
+- Turn lights **OFF at 8:00 AM**
+
+Waiting until the actual system time reaches 8:00 PM or 8:00 AM is not practical during development. To solve this, the project uses a small clock abstraction.
+
+The real node uses `SystemClock`, which reads the actual system time.<br/>
+For testing, `FakeClock` is used to simulate different times immediately.<br/>
+This makes the schedule logic deterministic and easy to test.
+
+#### Test File
+
+The scheduled automation test is located at: `src/dorm_lighting/test/test_time.py`<br/>
+The test creates a fake time, passes it into the `LightController`, and manually advances time minute by minute.
+
 **Terminal 1: Subscriber**
 ```
-mosquitto_sub -h localhost -t test/topic
+mosquitto_sub -h localhost -t dorm/light/command
 ```
 **Terminal 2: Publisher**
 ```
-mosquitto_pub -h localhost -t test/topic -m "hello"
+python3 src/dorm_lighting/test/test_time.py
 ```
-Expected Output:
-```
-hello
-```
+
+When the fake time reaches `20:00`, the node should publish: `ON`.
+
+Change the `fake_time` in `test_time.py` from `19` to `7`.<br/>
+When the fake time reaches `08:00`, the node should publish: `OFF`.
+
 ### 🔷 Possible Future Improvements
 * Philips Hue API integration
 * Docker containerization
