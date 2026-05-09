@@ -1,23 +1,23 @@
-## NTU Dorm Smart Lighting Automation
+## NTU Dorm Smart Lighting Automation 💡
 
 At Nanyang Technological University (NTU), student dormitories are implementing energy-efficient automated room lighting.
 
-### Current Challenges
+### Current Challenges ⚠️
 - Lights left ON overnight or during the day, wasting electricity
 - Inconsistent usage habits across students
 - No centralized management or automation
 
-### Requirements
+### Requirements ❔
 The system must automatically:
 - Turn lights **ON** at 8:00 PM (students return to rooms)
 - Turn lights **OFF** at 8:00 AM (save daytime energy)
 
-### Solution Stack
+### Solution Stack 🛜
 - Philips Hue smart lights (Zigbee devices)
 - MQTT broker for communication
 - ROS 2 orchestration layer
 
-### Solution Architecture
+### Solution Architecture ⭐
 
 Overall, the ROS 2 Node will publish the light commands such as send_light_command() through the MQTT Broker, which then relays the message to the light bulb. However, the ROS 2 Node also has to know the current state of the light bulb to make appropriate decisions, and for which the state information is sent in reverse order, which the ROS 2 Node receives through on_message().
 
