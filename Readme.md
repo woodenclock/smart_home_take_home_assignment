@@ -107,24 +107,13 @@ And install Python MQTT Library.
 ```
 pip install paho-mqtt
 ```
-And install Mosquito MQTT Broker.
+And install and run Mosquito MQTT Broker.
 ```
 sudo apt install -y mosquitto mosquitto-clients
 
 sudo systemctl enable mosquitto
 
 sudo systemctl start mosquitto
-```
-### 🔷 Building ROS 2 Package
-Navigate to workspace, in my case, it is located in $/projects/smart_home_take_home_assignment.
-```
-cd ~/projects/smart_home_take_home_assignment
-```
-Then, build and source the workspace.
-```
-colcon build
-
-source install/setup.bash
 ```
 ### 🔷 MQTT Topics
 Before moving on, we'll take a look at the different topics for publishing and subscribing.
@@ -146,6 +135,17 @@ sudo systemctl status mosquitto
 Expected Output:
 ```
 active (running)
+```
+### 🔷 Building ROS 2 Package
+Navigate to workspace, in my case, it is located in $/projects/smart_home_take_home_assignment.
+```
+cd ~/projects/smart_home_take_home_assignment
+```
+Then, build and source the workspace.
+```
+colcon build
+
+source install/setup.bash
 ```
 ### 🔷 Running ROS 2 Node
 Run the following commands:
