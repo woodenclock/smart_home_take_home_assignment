@@ -126,6 +126,18 @@ colcon build
 
 source install/setup.bash
 ```
+### 🔷 MQTT Topics
+Before moving on, we'll take a look at the different topics for publishing and subscribing.
+<br/>
+<br/>
+**Command Topic**: Used to send ON/OFF commands to the smart light.
+```
+dorm/light/command
+```
+**State Topic**: Used by the light device to publish its current state.
+```
+dorm/light/state
+```
 ### 🔷 Running MQTT Broker
 Verify Mosquitto is running.
 ```
@@ -147,34 +159,6 @@ ros2 run dorm_lighting light_controller
 Expected Output:
 ```
 [INFO] Light controller started.
-```
-### 🔷 MQTT Topics
-Before moving on, we'll take a look at the different topics for publishing and subscribing.
-<br/>
-<br/>
-**Command Topic**: Used to send ON/OFF commands to the smart light.
-```
-dorm/light/command
-```
-**State Topic**: Used by the light device to publish its current state.
-```
-dorm/light/state
-```
-### 🔷 Testing MQTT broker.
-We will use different terminals to simulate the different components of the architecture.
-<br/>
-<br/>
-**Terminal 1: Subscriber**
-```
-mosquitto_sub -h localhost -t test/topic
-```
-**Terminal 2: Publisher**
-```
-mosquitto_pub -h localhost -t test/topic -m "hello"
-```
-Expected Output:
-```
-hello
 ```
 ### 🔷 Testing ON / OFF commands.
 **Terminal 1: Run ROS 2 Node**
@@ -198,6 +182,22 @@ Expected Output:
 data: ON
 
 data: OFF
+```
+### 🔷 Testing MQTT broker.
+We will use different terminals to simulate the different components of the architecture.
+<br/>
+<br/>
+**Terminal 1: Subscriber**
+```
+mosquitto_sub -h localhost -t test/topic
+```
+**Terminal 2: Publisher**
+```
+mosquitto_pub -h localhost -t test/topic -m "hello"
+```
+Expected Output:
+```
+hello
 ```
 ### 🔷 Possible Future Improvements
 * Philips Hue API integration
