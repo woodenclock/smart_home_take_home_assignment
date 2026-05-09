@@ -178,7 +178,7 @@ Expected Output:
 ```
 [INFO] Light controller started.
 ```
-### 🔷 Testing MQTT broker. (Optional)
+### 🔷 Testing MQTT broker (Optional)
 We will use different terminals to simulate the different components of the architecture.
 <br/>
 <br/>
@@ -195,7 +195,7 @@ Expected Output:
 hello
 ```
 This confirms that the local MQTT broker can receive and forward messages.
-### 🔷 Testing ON / OFF commands.
+### 🔷 Testing ON / OFF commands
 **Terminal 1: Run ROS 2 Node**
 ```
 ros2 run dorm_lighting light_controller

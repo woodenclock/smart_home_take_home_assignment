@@ -1,0 +1,28 @@
+[0.359s] Invoking command in '/home/elvis/projects/smart_home_take_home_assignment/src/dorm_lighting': PYTHONPATH=/home/elvis/projects/smart_home_take_home_assignment/build/dorm_lighting/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/elvis/projects/smart_home_take_home_assignment/install/dorm_lighting/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/dorm_lighting build --build-base /home/elvis/projects/smart_home_take_home_assignment/build/dorm_lighting/build install --record /home/elvis/projects/smart_home_take_home_assignment/build/dorm_lighting/install.log --single-version-externally-managed install_data
+[0.482s] running egg_info
+[0.483s] writing ../../build/dorm_lighting/dorm_lighting.egg-info/PKG-INFO
+[0.483s] writing dependency_links to ../../build/dorm_lighting/dorm_lighting.egg-info/dependency_links.txt
+[0.483s] writing entry points to ../../build/dorm_lighting/dorm_lighting.egg-info/entry_points.txt
+[0.484s] writing requirements to ../../build/dorm_lighting/dorm_lighting.egg-info/requires.txt
+[0.484s] writing top-level names to ../../build/dorm_lighting/dorm_lighting.egg-info/top_level.txt
+[0.486s] reading manifest file '../../build/dorm_lighting/dorm_lighting.egg-info/SOURCES.txt'
+[0.486s] adding license file 'LICENSE'
+[0.486s] writing manifest file '../../build/dorm_lighting/dorm_lighting.egg-info/SOURCES.txt'
+[0.487s] running build
+[0.487s] running build_py
+[0.487s] copying dorm_lighting/system_clock.py -> /home/elvis/projects/smart_home_take_home_assignment/build/dorm_lighting/build/lib/dorm_lighting
+[0.487s] copying dorm_lighting/light_controller.py -> /home/elvis/projects/smart_home_take_home_assignment/build/dorm_lighting/build/lib/dorm_lighting
+[0.487s] running install
+[0.488s] running install_lib
+[0.488s] copying /home/elvis/projects/smart_home_take_home_assignment/build/dorm_lighting/build/lib/dorm_lighting/system_clock.py -> /home/elvis/projects/smart_home_take_home_assignment/install/dorm_lighting/lib/python3.10/site-packages/dorm_lighting
+[0.489s] copying /home/elvis/projects/smart_home_take_home_assignment/build/dorm_lighting/build/lib/dorm_lighting/light_controller.py -> /home/elvis/projects/smart_home_take_home_assignment/install/dorm_lighting/lib/python3.10/site-packages/dorm_lighting
+[0.489s] byte-compiling /home/elvis/projects/smart_home_take_home_assignment/install/dorm_lighting/lib/python3.10/site-packages/dorm_lighting/system_clock.py to system_clock.cpython-310.pyc
+[0.489s] byte-compiling /home/elvis/projects/smart_home_take_home_assignment/install/dorm_lighting/lib/python3.10/site-packages/dorm_lighting/light_controller.py to light_controller.cpython-310.pyc
+[0.490s] running install_data
+[0.490s] running install_egg_info
+[0.492s] removing '/home/elvis/projects/smart_home_take_home_assignment/install/dorm_lighting/lib/python3.10/site-packages/dorm_lighting-0.0.0-py3.10.egg-info' (and everything under it)
+[0.493s] Copying ../../build/dorm_lighting/dorm_lighting.egg-info to /home/elvis/projects/smart_home_take_home_assignment/install/dorm_lighting/lib/python3.10/site-packages/dorm_lighting-0.0.0-py3.10.egg-info
+[0.494s] running install_scripts
+[0.511s] Installing light_controller script to /home/elvis/projects/smart_home_take_home_assignment/install/dorm_lighting/lib/dorm_lighting
+[0.511s] writing list of installed files to '/home/elvis/projects/smart_home_take_home_assignment/build/dorm_lighting/install.log'
+[0.525s] Invoked command in '/home/elvis/projects/smart_home_take_home_assignment/src/dorm_lighting' returned '0': PYTHONPATH=/home/elvis/projects/smart_home_take_home_assignment/build/dorm_lighting/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/elvis/projects/smart_home_take_home_assignment/install/dorm_lighting/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/dorm_lighting build --build-base /home/elvis/projects/smart_home_take_home_assignment/build/dorm_lighting/build install --record /home/elvis/projects/smart_home_take_home_assignment/build/dorm_lighting/install.log --single-version-externally-managed install_data

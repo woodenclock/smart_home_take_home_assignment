@@ -1,9 +1,8 @@
-import json
-import paho.mqtt.client as mqtt     # mqtt python lib
 import rclpy                        # ROS 2 client python lib
+import paho.mqtt.client as mqtt     # mqtt python lib
 from rclpy.node import Node
-from datetime import datetime
 from std_msgs.msg import String
+from .system_clock import SystemClock
 
 
 MQTT_BROKER = "localhost"
@@ -14,9 +13,9 @@ MQTT_STATE_TOPIC = "dorm/light/state"       # Reports current state
 
 class LightController(Node):                        # Create a custom ROS node called LightController
                                                     # Inherits ROS2 node base class
-    def __init__(self):                             # Object starts
+    def __init__(self, clock=None):                 # Object starts
         super().__init__("light_controller")        # Call parent ros node constructor, register node name
-
+        self.clock = clock or SystemClock()         # Whether to use real or fake clock
         self.publisher_ = self.create_publisher(    # Create ROS publisher node
             String,                                 # Publish string messages to ROS topic light_state
             "light_state",
@@ -25,9 +24,11 @@ class LightController(Node):                        # Create a custom ROS node c
 
         self.current_state = "OFF"                  # Stores current light status
 
+        self.last_on_date = None                    # Track whether the scheduled ON/OFF command has already been sent today
+        self.last_off_date = None
+
         # MQTT setup
         self.mqtt_client = mqtt.Client()            # Create MQTT object, handles all MQTT operations
-
         self.mqtt_client.on_connect = self.on_connect   # When MQTT connects successfully, run self.on_connect()
         self.mqtt_client.on_message = self.on_message   # Whenever MQTT message arrives, run self.on_connect()
         self.mqtt_client.connect(MQTT_BROKER, MQTT_PORT, 60)    # keep alive interval in secs
@@ -57,17 +58,26 @@ class LightController(Node):                        # Create a custom ROS node c
 
 
     def check_schedule(self):       # Run every 30 secs
-        now = datetime.now()        # Get current system time
+        now = self.clock.now()      # Get current system time
         current_hour = now.hour     
-        current_minute = now.minute
+        today = now.date()
 
         # Turn ON at 8:00 PM
-        if current_hour == 20 and current_minute == 0:
-            self.send_light_command("ON")
+        if 20 <= current_hour < 21:  # 8:00–8:59 PM window
+            if self.last_on_date != today:
+                self.send_light_command("ON")
+                self.last_on_date = today
 
         # Turn OFF at 8:00 AM
-        elif current_hour == 8 and current_minute == 0:
-            self.send_light_command("OFF")
+        elif 8 <= current_hour < 9:   # 8:00–8:59 AM window
+            if self.last_off_date != today:
+                self.send_light_command("OFF")
+                self.last_off_date = today
+
+        # Reset flag
+        if current_hour == 0:
+            self.last_on_date = None
+            self.last_off_date = None
 
 
     def send_light_command(self, command):      # Helper function to publish command
