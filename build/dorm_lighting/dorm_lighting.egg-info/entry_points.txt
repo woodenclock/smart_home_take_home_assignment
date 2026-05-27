@@ -1,3 +1,0 @@
-[console_scripts]
-light_controller = dorm_lighting.light_controller:main
-
