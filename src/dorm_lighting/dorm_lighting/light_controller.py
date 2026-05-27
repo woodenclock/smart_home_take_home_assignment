@@ -1,3 +1,4 @@
+import os
 import rclpy                        # ROS 2 client python lib
 import paho.mqtt.client as mqtt     # mqtt python lib
 from rclpy.node import Node
@@ -5,10 +6,10 @@ from std_msgs.msg import String
 from .system_clock import SystemClock
 
 
-MQTT_BROKER = "localhost"
-MQTT_PORT = 1883                            # Standard MQTT port
-MQTT_COMMAND_TOPIC = "dorm/light/command"   # Tells light what to do
-MQTT_STATE_TOPIC = "dorm/light/state"       # Reports current state
+MQTT_BROKER = os.getenv("MQTT_BROKER", "localhost")
+MQTT_PORT = int(os.getenv("MQTT_PORT", "1883"))     # Standard MQTT port
+MQTT_COMMAND_TOPIC = "dorm/light/command"           # Tells light what to do
+MQTT_STATE_TOPIC = "dorm/light/state"               # Reports current state
 
 
 class LightController(Node):                        # Create a custom ROS node called LightController
