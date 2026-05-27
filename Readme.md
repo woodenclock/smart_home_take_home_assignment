@@ -255,6 +255,12 @@ When the fake time reaches `20:00`, the node should publish: `ON`.
 Change the `fake_time` in `test_time.py` from `19` to `7`.<br/>
 When the fake time reaches `08:00`, the node should publish: `OFF`.
 
+### 🔷 Running through Docker
+Note: If Mosquitto is already running locally on the host machine, port 1883 may conflict with the Docker Mosquitto container. Stop the local broker before testing Docker:
+
+```
+sudo systemctl stop mosquitto
+```
 ### 🔷 Possible Future Improvements
 * Philips Hue API integration
 * Docker containerization
