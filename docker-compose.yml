@@ -19,12 +19,28 @@ services:
       - TZ=Asia/Singapore
     volumes:
       - ./zigbee2mqtt/data:/app/data
-      - ./zigbee2mqtt/configuration.yaml:/app/configuration.yaml
+      - ./zigbee2mqtt/configuration.yaml:/app/data/configuration.yaml
     ports:
       - "8080:8080"
     devices:
       - /dev/ttyUSB0:/dev/ttyUSB0
     privileged: true
+    networks:
+      - dorm_network
+    restart: unless-stopped
+
+  mqtt_bridge:
+    build:
+      context: .
+      dockerfile: Dockerfile.bridge
+    container_name: dorm_mqtt_bridge
+    depends_on:
+      - mosquitto
+      - zigbee2mqtt
+    environment:
+      - MQTT_BROKER=mosquitto
+      - MQTT_PORT=1883
+      - ZIGBEE_DEVICE_NAME=smart_plug
     networks:
       - dorm_network
     restart: unless-stopped
@@ -35,6 +51,7 @@ services:
     depends_on:
       - mosquitto
       - zigbee2mqtt
+      - mqtt_bridge
     environment:
       - MQTT_BROKER=mosquitto
       - MQTT_PORT=1883

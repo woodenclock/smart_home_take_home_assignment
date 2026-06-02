@@ -1,40 +1,37 @@
-# Zigbee2MQTT Configuration
-# This bridge translates MQTT <-> Zigbee for the smart plug
-
-# Zigbee adapter settings
 serial:
   port: /dev/ttyUSB0
-  adapter: auto
+  adapter: zstack
   baudrate: 115200
-  rtscts: true
-
-# MQTT connection settings
+  rtscts: false
 mqtt:
   base_topic: zigbee2mqtt
   server: mqtt://mosquitto:1883
   keepalive: 60
   reject_unauthorized: true
   include_device_information: true
-
-# Frontend UI
 frontend:
+  enabled: true
   port: 8080
-
-# Logging
 advanced:
   log_level: info
-  pan_id: 0x1a62
-  ext_pan_id: [0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd]
+  pan_id: 6754
+  ext_pan_id:
+    - 221
+    - 221
+    - 221
+    - 221
+    - 221
+    - 221
+    - 221
+    - 221
   channel: 11
-  channel_mask: [11]
-
-# Device mappings for dorm/light/command and dorm/light/state
-# The smart plug will be auto-discovered and mapped to these topics
+  channel_mask:
+    - 11
 device_options:
   retain: false
   transition: 0
-  legacy: false
-
-# Ensure friendly names for MQTT topic mapping
-devices: {}
+devices:
+  '0xa4c1380fccb9ffff':
+    friendly_name: smart_plug
 groups: {}
+version: 5
