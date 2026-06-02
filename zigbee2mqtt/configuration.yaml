@@ -1,0 +1,37 @@
+serial:
+  port: /dev/ttyUSB0
+  adapter: zstack
+  baudrate: 115200
+  rtscts: false
+mqtt:
+  base_topic: zigbee2mqtt
+  server: mqtt://mosquitto:1883
+  keepalive: 60
+  reject_unauthorized: true
+  include_device_information: true
+frontend:
+  enabled: true
+  port: 8080
+advanced:
+  log_level: info
+  pan_id: 6754
+  ext_pan_id:
+    - 221
+    - 221
+    - 221
+    - 221
+    - 221
+    - 221
+    - 221
+    - 221
+  channel: 11
+  channel_mask:
+    - 11
+device_options:
+  retain: false
+  transition: 0
+devices:
+  '0xa4c1380fccb9ffff':
+    friendly_name: smart_plug
+groups: {}
+version: 5
