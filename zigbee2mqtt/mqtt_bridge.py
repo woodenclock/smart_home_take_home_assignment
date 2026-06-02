@@ -6,7 +6,7 @@ Bridges Zigbee2MQTT topics to dorm/light topics
 import paho.mqtt.client as mqtt
 import json
 import os
-from typing import Dict, Any
+import time
 
 # Configuration
 ZIGBEE_BASE_TOPIC = "zigbee2mqtt"
@@ -60,8 +60,15 @@ class MQTTBridge:
                 print(f"[Bridge] Failed to parse JSON: {payload}")
     
     def run(self):
-        self.client.connect(MQTT_BROKER, MQTT_PORT, 60)
         print(f"[Bridge] Connecting to MQTT broker {MQTT_BROKER}:{MQTT_PORT}")
+        while True:
+            try:
+                self.client.connect(MQTT_BROKER, MQTT_PORT, 60)
+                break
+            except OSError as exc:
+                print(f"[Bridge] MQTT broker unavailable ({exc}); retrying in 2s")
+                time.sleep(2)
+
         self.client.loop_forever()
 
 if __name__ == "__main__":
