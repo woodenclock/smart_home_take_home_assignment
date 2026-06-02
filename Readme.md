@@ -256,16 +256,208 @@ Change the `fake_time` in `test_time.py` from `19` to `7`.<br/>
 When the fake time reaches `08:00`, the node should publish: `OFF`.
 
 ### 🔷 Running through Docker
+
 Note: If Mosquitto is already running locally on the host machine, port 1883 may conflict with the Docker Mosquitto container. Stop the local broker before testing Docker:
 
 ```
 sudo systemctl stop mosquitto
 ```
+
+### 🔷 Zigbee Integration with Physical Devices
+
+This project now includes **Zigbee2MQTT** bridge support for controlling real Zigbee devices (e.g., Philips Hue smart plugs) via the Zigbee USB dongle.
+
+#### Architecture with Zigbee
+
+```
++------------------------------------------+
+|          ROS 2 Lighting Node             |
++------------------------------------------+
+              |
+              | MQTT (dorm/light/command, dorm/light/state)
+              v
++------------------------------------------+
+|        Mosquitto MQTT Broker             |
++------------------------------------------+
+              |
+              | MQTT (zigbee2mqtt/*)
+              v
++------------------------------------------+
+|      Zigbee2MQTT Bridge Service          |
+|  Translates MQTT <-> Zigbee Protocol    |
++------------------------------------------+
+              |
+              | Zigbee Protocol
+              v
++------------------------------------------+
+|   Zigbee USB Dongle + Smart Devices     |
+|  (Smart Plugs, Philips Hue lights, etc.) |
++------------------------------------------+
+```
+
+#### Prerequisites for Zigbee
+
+1. **Zigbee USB Dongle** - Supported adapters: CC2531, CC2538, ConBee II, Sonoff ZBDongle, etc.
+2. **Zigbee Smart Device** - Philips Hue bulb, IKEA TRADFRI, Gledopto, or compatible device
+3. **Docker** - For containerized deployment
+4. **Docker Compose** - For multi-service orchestration
+
+#### Setup Steps
+
+**Step 1: Identify the USB Dongle**
+
+On Ubuntu, plug in your Zigbee USB dongle and identify its device:
+
+```bash
+ls /dev/serial/by-id/
+```
+
+You should see something like:
+```
+usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_01234567-if00-port0
+```
+
+Or simply:
+```bash
+ls /dev/ttyUSB*
+```
+
+**Step 2: Update Docker Compose (if device path is different)**
+
+Edit `docker-compose.yml` and update the `zigbee2mqtt` service `devices` section:
+
+```yaml
+devices:
+  - /dev/ttyUSB0:/dev/ttyUSB0  # Change to your actual device
+```
+
+**Step 3: Start Docker Services**
+
+```bash
+cd ~/projects/smart_home_take_home_assignment
+
+docker compose up -d
+```
+
+Verify all services are running:
+
+```bash
+docker compose ps
+```
+
+Expected output:
+```
+CONTAINER ID   IMAGE                           STATUS
+xxxxx          eclipse-mosquitto:2             Up X minutes
+xxxxx          koenkk/zigbee2mqtt:latest       Up X minutes
+xxxxx          dorm-lighting-controller        Up X minutes
+```
+
+**Step 4: Access Zigbee2MQTT Frontend**
+
+Open your browser and navigate to:
+```
+http://localhost:8080
+```
+
+You should see the Zigbee2MQTT UI. The USB adapter should be detected.
+
+**Step 5: Pair Your Zigbee Device**
+
+1. In the Zigbee2MQTT UI, click **"Permit join (All)"** to enable pairing mode (lasts 254 seconds)
+2. Power on or reset your Zigbee smart device to pairing mode
+   - Most devices: Hold the power/pairing button for 3-5 seconds
+   - Some devices may have a reset button
+3. Wait for the device to appear in the UI under **"Devices"**
+
+**Step 6: Configure Device Friendly Name**
+
+1. Once paired, the device appears in the UI
+2. Click on the device and set a friendly name (e.g., `smart_plug`)
+3. Device will now publish to: `zigbee2mqtt/smart_plug/state`
+
+**Step 7: Create MQTT Bridge (Optional)**
+
+If you want the Zigbee device to respond to `dorm/light/command` topic directly, create a simple MQTT bridge.
+
+Create a new service in `docker-compose.yml` or use `zigbee2mqtt/mqtt_bridge.py` to map topics.
+
+For now, the device will respond to:
+- **Publish commands to**: `zigbee2mqtt/{device_name}/set` with payload `{"state":"ON"}` or `{"state":"OFF"}`
+- **Subscribe to state**: `zigbee2mqtt/{device_name}` (publishes full device state)
+
+#### Testing Zigbee Device
+
+**Terminal 1: Monitor device state**
+```bash
+mosquitto_sub -h localhost -t "zigbee2mqtt/smart_plug"
+```
+
+**Terminal 2: Send command**
+```bash
+mosquitto_pub -h localhost -t "zigbee2mqtt/smart_plug/set" -m '{"state":"ON"}'
+
+mosquitto_pub -h localhost -t "zigbee2mqtt/smart_plug/set" -m '{"state":"OFF"}'
+```
+
+You should see the physical device turn ON/OFF and state updates in Terminal 1.
+
+#### Troubleshooting
+
+**Device not found after pairing:**
+- Check Zigbee2MQTT logs: `docker compose logs -f zigbee2mqtt`
+- Ensure permit join is enabled before pairing
+- Try resetting the device and pairing again
+
+**USB device permission denied:**
+```bash
+sudo usermod -a -G dialout $USER
+# Then log out and log back in
+```
+
+**Cannot connect to Mosquitto:**
+- Verify mosquitto container is running: `docker compose ps`
+- Check MQTT broker logs: `docker compose logs -f mosquitto`
+
+#### Docker Compose Quick Commands
+
+```bash
+# Start all services
+docker compose up -d
+
+# View logs
+docker compose logs -f                    # All services
+docker compose logs -f zigbee2mqtt        # Zigbee2MQTT only
+docker compose logs -f lighting_controller
+
+# Stop services
+docker compose down
+
+# Rebuild images
+docker compose build
+
+# Clean up volumes (remove paired devices)
+docker compose down -v
+```
+
+### 🔷 Integration with Light Controller
+
+The ROS 2 light controller can be extended to use Zigbee2MQTT topics directly:
+
+Update `light_controller.py` to subscribe/publish to:
+- **State topic**: `zigbee2mqtt/{device_name}` (parse `"state"` field)
+- **Command topic**: `zigbee2mqtt/{device_name}/set` (send `{"state":"ON/OFF"}`)
+
+Or keep the current `dorm/light/*` topics and add a separate bridge service to translate between them.
+
 ### 🔷 Possible Future Improvements
-* Philips Hue API integration
-* Docker containerization
+* Native Zigbee2MQTT to dorm/light/* MQTT bridge
+* Web dashboard for device management
+* Multi-device support (multiple smart plugs)
+* Advanced scheduling with sunrise/sunset
+* Energy consumption monitoring
 * Unit and integration tests
-* Dynamic scheduling parameters
+* Kubernetes deployment
 
 #### Author: Lee Sungmin
 For any problems/suggestions, please contact the author at `luckyisland3710@gmail.com`.
